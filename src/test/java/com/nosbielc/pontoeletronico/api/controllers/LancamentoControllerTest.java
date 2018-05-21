@@ -26,7 +26,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -98,15 +97,15 @@ public class LancamentoControllerTest {
                 .andExpect(status().isOk());
     }
 
-//    @Test
-//    @WithMockUser
-//    public void testRemoverLancamentoAcessoNegado() throws Exception {
-//        BDDMockito.given(this.lancamentoService.buscarPorId(Mockito.anyLong())).willReturn(Optional.of(new Lancamento()));
-//
-//        mvc.perform(MockMvcRequestBuilders.delete(URL_BASE + ID_LANCAMENTO)
-//                .accept(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isForbidden());
-//    }
+    @Test
+    @WithMockUser
+    public void testRemoverLancamentoAcessoNegado() throws Exception {
+        BDDMockito.given(this.lancamentoService.buscarPorId(Mockito.anyLong())).willReturn(Optional.of(new Lancamento()));
+
+        mvc.perform(MockMvcRequestBuilders.delete(URL_BASE + ID_LANCAMENTO)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isForbidden());
+    }
 
     private String obterJsonRequisicaoPost() throws JsonProcessingException {
         LancamentoDto lancamentoDto = new LancamentoDto();
