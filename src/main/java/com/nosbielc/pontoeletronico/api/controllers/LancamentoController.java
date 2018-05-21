@@ -9,9 +9,11 @@ import javax.validation.Valid;
 import com.nosbielc.pontoeletronico.api.dtos.LancamentoDto;
 import com.nosbielc.pontoeletronico.api.entities.Funcionario;
 import com.nosbielc.pontoeletronico.api.entities.Lancamento;
+import com.nosbielc.pontoeletronico.api.enums.TipoEnum;
 import com.nosbielc.pontoeletronico.api.response.Response;
 import com.nosbielc.pontoeletronico.api.services.FuncionarioService;
 import com.nosbielc.pontoeletronico.api.services.LancamentoService;
+import org.apache.commons.lang3.EnumUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,7 +104,7 @@ public class LancamentoController {
     /**
      * Adiciona um novo lançamento.
      *
-     * @param lancamento
+     * @param lancamentoDto
      * @param result
      * @return ResponseEntity<Response<LancamentoDto>>
      * @throws ParseException
@@ -242,11 +244,11 @@ public class LancamentoController {
         lancamento.setLocalizacao(lancamentoDto.getLocalizacao());
         lancamento.setData(this.dateFormat.parse(lancamentoDto.getData()));
 
-//        if (EnumUtils.isValidEnum(TipoEnum.class, lancamentoDto.getTipo())) {
-//            lancamento.setTipo(TipoEnum.valueOf(lancamentoDto.getTipo()));
-//        } else {
-//            result.addError(new ObjectError("tipo", "Tipo inválido."));
-//        }
+        if (EnumUtils.isValidEnum(TipoEnum.class, lancamentoDto.getTipo())) {
+            lancamento.setTipo(TipoEnum.valueOf(lancamentoDto.getTipo()));
+        } else {
+            result.addError(new ObjectError("tipo", "Tipo inválido."));
+        }
 
         return lancamento;
     }
